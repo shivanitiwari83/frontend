@@ -30,7 +30,7 @@ const Login = () => {
 
     }else if((response.status === 401)){
       Swal.fire({
-        icon : 'success',
+        icon : 'error',
         title : 'Login Failed'
       })
     }else{
@@ -74,25 +74,25 @@ const Login = () => {
                     { ( {values, handleSubmit, handleChange , isSubmiting}) => (
                       <form onSubmit={handleSubmit}>
                         {/* Email input */}
-                        <div className="form-outline mb-4">
+                        <div className=" mb-4">
+                          <label className="form-label" htmlFor="form2Example1">
+                            Email address
+                          </label>
                           <input type="email" id="email" value={values.email} onChange={handleChange}
                                   className="form-control"
                           />
                             
-                          <label className="form-label" htmlFor="form2Example1">
-                            Email address
-                          </label>
                         </div>
                         {/* Password input */}
-                        <div className="form-outline mb-4">
+                        <div className=" mb-4">
+                          <label className="form-label" htmlFor="form2Example2">
+                            Password
+                          </label>
                           <input
                             type="password" id="password" value={values.password}  onChange={handleChange}
                             
                             className="form-control"
                           />
-                          <label className="form-label" htmlFor="form2Example2">
-                            Password
-                          </label>
                         </div>
                         {/* 2 column grid layout for inline styling */}
                         <div className="row mb-4">

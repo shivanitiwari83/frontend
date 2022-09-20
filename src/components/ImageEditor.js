@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import Swal from "sweetalert2"
 import DEFAULT_OPTIONS from "./DefaultOptions"
 import Filters from "./Filters"
+import "./imageeditor.css"
 // import "./imageeditor.css"
 // import Navbar from "./Navbar"
 
@@ -23,7 +24,7 @@ const FilterSlider = ({ options, updateFilterOptions, index }) => {
           min={options.range.min}
           max={options.range.max}
           id={options.property}
-          // style={{backgoundColor: options.backgroundColor}}
+          style={{backgoundColor: options.backgroundColor}}
         />
       </div>
     </div>
@@ -56,7 +57,7 @@ const ImageEditor = () => {
 
   const [currentUser, setCurrentUser] = useState(JSON.parse(sessionStorage.getItem("user")))
 
-  const getUserFilter = () => {
+  const getUserFilter = (values) => {
     setLoading(true)
     fetch("http://localhost:5000/filter/getbyuser/" + currentUser._id)
       .then((res) => res.json())
@@ -69,7 +70,8 @@ const ImageEditor = () => {
 
   const saveCustomFilter = () => {
     console.log(options)
-
+    const values=currentUser._id;
+    console.log(values);
     fetch("http://localhost:5000/filter/add", {
       method: "POST",
       headers: {
@@ -101,9 +103,9 @@ const ImageEditor = () => {
     })
 
     // filters.push(`url(${mainImg})`);
-    // console.log({ filter: filters.join(" ") });
-
-    return { filter: filters.join(" "), backgroundImage: `url(${mainImg})` }
+    console.log({ filter: filters.join(" ") });
+    console.log(`url(${mainImg})`);
+    return { filter: filters.join(" "), backgroundImage: `url('${mainImg}')` }
   }
 
   const uploadImage = (e) => {
@@ -128,10 +130,10 @@ const ImageEditor = () => {
   }
 
   return (
-    <div>
+    <div className="vh-100">
     {/* <Navbar/> */}
     <div className="editor-cont" style={{background: "#1a3847"}}>
-      <p className="page-title" style={{color: "white"}}>Image Editor</p>
+      <p className="page-title text-center" style={{color: "white",fontSize:"50px"}}>Image Editor</p>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-2">
@@ -150,7 +152,7 @@ const ImageEditor = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-7" >
+          <div className="col-md-7 " >
             <div className="card editor" style={{background: "#EEDD82"}}>
               <div className="card-body">
                 <label htmlFor="uploader" className="drag-drop" style={{background: "#1a3847", color: "white"}} onDrop={(e) => {
@@ -163,11 +165,11 @@ const ImageEditor = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-3  ">
             <div className="card editor-toolbox">
-              <div className="card-body" style={{background: "#EEDD82"}}>
-                <div class="accordion" id="accordion-filter">
-                  <div class="accordion-item">
+              <div className="card-body " style={{background: "#EEDD82"}}>
+                <div class="accordion" id="accordion-filter"> 
+                  <div class="accordion-item filterlist">
                     <h2 class="accordion-header" id="heading-filter">
                       <button
                         class="accordion-button"
@@ -184,7 +186,7 @@ const ImageEditor = () => {
                       class="accordion-collapse collapse show"
                       aria-labelledby="heading-filter"
                       data-mdb-parent="#accordion-filter">
-                      <div class="">
+                      <div class="mt-2">
                         {options.map((option, index) => (
                           <FilterSlider options={option} updateFilterOptions={updateFilters} index={index} />
                         ))}
